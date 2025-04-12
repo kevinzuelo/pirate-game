@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://ceyt1lbmaqtig"]
+
+[ext_resource type="Script" uid="uid://gdme6x11n4qq" path="res://scripts/ocean.gd" id="1_a1ohp"]
+[ext_resource type="Shader" uid="uid://c0rrubgj7hmmw" path="res://Shaders/ocean.gdshader" id="1_fiuhb"]
+[ext_resource type="Texture2D" uid="uid://dm1xun8jecvwm" path="res://assets/55691_Water_Still_Overlay_A_04_1400x1400.png" id="2_mn261"]
+[ext_resource type="PackedScene" uid="uid://bj0somwodltbl" path="res://scenes/character_body_2d.tscn" id="3_mn261"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1ohp"]
+shader = ExtResource("1_fiuhb")
+shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
+shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(200, 200)
+shader_parameter/wave_speed = 1.5
+
+[node name="TestGameScene" type="Node2D"]
+script = ExtResource("1_a1ohp")
+
+[node name="OceanBackground" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_a1ohp")
+position = Vector2(632, 340)
+scale = Vector2(1.30571, 0.960714)
+texture = ExtResource("2_mn261")
+
+[node name="Boat" parent="." instance=ExtResource("3_mn261")]
+
+[node name="UI" type="CanvasLayer" parent="Boat"]
+
+[node name="SpeedLabel" type="Label" parent="Boat/UI"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 31.0
+
+[node name="SpeedGauge" type="ProgressBar" parent="Boat/UI"]
+offset_left = 7.0
+offset_top = 34.0
+offset_right = 91.0
+offset_bottom = 61.0
+max_value = 200.0
+show_percentage = false
