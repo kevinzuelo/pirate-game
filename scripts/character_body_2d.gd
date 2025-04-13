@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var rotation_speed: float = 2.0
+@export var rotation_speed: float = 4.0
 @export var current_speed: float = 0.0
 @export var acceleration: float = 100.0
 @export var deceleration: float = 80.0
@@ -14,10 +14,12 @@ extends CharacterBody2D
 #This function handles all  PHYSICS processes per frame
 func _physics_process(delta: float) -> void:
 #--- Rotation ---
+	var speed_ratio = clamp(current_speed / max_speed, 0.0, 1.0)
+	var effective_rotation_speed = rotation_speed * speed_ratio
 	if Input.is_action_pressed("ui_left"):
-		rotation -= rotation_speed * delta
+		rotation -= (rotation_speed * (current_speed / max_speed)) * delta
 	elif Input.is_action_pressed("ui_right"):
-		rotation += rotation_speed * delta
+		rotation += (rotation_speed * (current_speed / max_speed)) * delta
 
 # --- Acceleration ---
 	if Input.is_action_pressed("ui_up"):

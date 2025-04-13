@@ -1,29 +1,62 @@
-[gd_scene load_steps=6 format=3 uid="uid://ceyt1lbmaqtig"]
+[gd_scene load_steps=12 format=3 uid="uid://ceyt1lbmaqtig"]
 
 [ext_resource type="Script" uid="uid://gdme6x11n4qq" path="res://scripts/ocean.gd" id="1_a1ohp"]
-[ext_resource type="Shader" uid="uid://c0rrubgj7hmmw" path="res://Shaders/ocean.gdshader" id="1_fiuhb"]
-[ext_resource type="Texture2D" uid="uid://dm1xun8jecvwm" path="res://assets/55691_Water_Still_Overlay_A_04_1400x1400.png" id="2_mn261"]
+[ext_resource type="Shader" uid="uid://65kpmqvossgg" path="res://assets/shader-files/watershader.gdshader" id="2_5neuy"]
+[ext_resource type="Texture2D" uid="uid://cx68tq0mksl33" path="res://assets/shader-files/noiseTexture.png" id="3_4imn2"]
 [ext_resource type="PackedScene" uid="uid://bj0somwodltbl" path="res://scenes/character_body_2d.tscn" id="3_mn261"]
+[ext_resource type="Texture2D" uid="uid://js5o76a1wgap" path="res://assets/shader-files/CausticTextureHighlights.png" id="4_46w5d"]
+[ext_resource type="Texture2D" uid="uid://wapgax6nd0ok" path="res://assets/shader-files/cloudnoise_1.webp" id="5_tv676"]
+[ext_resource type="Texture2D" uid="uid://djyybbvnivi74" path="res://assets/shader-files/CausticTexture.png" id="6_vkfeh"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1ohp"]
-shader = ExtResource("1_fiuhb")
-shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
-shader_parameter/WATER2_COL = Color(0.04, 0.35, 0.78, 1)
-shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
-shader_parameter/distortion_speed = 2.0
-shader_parameter/tile = Vector2(200, 200)
-shader_parameter/wave_speed = 1.5
+[sub_resource type="Gradient" id="Gradient_4imn2"]
+colors = PackedColorArray(0, 0.196078, 1, 1, 0.509804, 0.666667, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5neuy"]
+gradient = SubResource("Gradient_4imn2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ti71"]
+shader = ExtResource("2_5neuy")
+shader_parameter/aspectRatio = 1.0
+shader_parameter/pixelization = 1000.0
+shader_parameter/waterDepthGradient = SubResource("GradientTexture2D_5neuy")
+shader_parameter/causticColor = Vector4(0.455, 0.773, 1.795, 2.535)
+shader_parameter/causticHighlightColor = Vector4(8.681, 11.104, 4.753, 0.355)
+shader_parameter/causticTexture = ExtResource("6_vkfeh")
+shader_parameter/causticHighlightTexture = ExtResource("4_46w5d")
+shader_parameter/causticNoiseTexture = ExtResource("5_tv676")
+shader_parameter/causticFadeNoiseTexture = ExtResource("3_4imn2")
+shader_parameter/causticScale = 5.825
+shader_parameter/causticSpeed = 0.006
+shader_parameter/causticMovementAmount = 0.075
+shader_parameter/causticFaderMultiplier = -1.045
+shader_parameter/specularColor = Vector4(-1.53, 0.815, 5.805, 0.135)
+shader_parameter/specularNoiseTexture = ExtResource("3_4imn2")
+shader_parameter/specularThreshold = 1.005
+shader_parameter/specularSpeed = 5.76
+shader_parameter/specularScale = 19.935
+shader_parameter/foamColor = Vector4(1, 1, 1, 1)
+shader_parameter/foamTexture = ExtResource("5_tv676")
+shader_parameter/foamIntensity = 3.325
+shader_parameter/foamScale = 15.0
+shader_parameter/outlineColor = Vector4(0.675, 0.86, 1, 1)
+shader_parameter/generalTransparency = 3.01
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_sup3w"]
+viewport_path = NodePath("SubViewport")
 
 [node name="TestGameScene" type="Node2D"]
 script = ExtResource("1_a1ohp")
 
 [node name="OceanBackground" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_a1ohp")
-position = Vector2(632, 340)
-scale = Vector2(1.30571, 0.960714)
-texture = ExtResource("2_mn261")
+material = SubResource("ShaderMaterial_6ti71")
+scale = Vector2(3.396, 2.499)
+texture = SubResource("ViewportTexture_sup3w")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1000, 1000)
 
 [node name="Boat" parent="." instance=ExtResource("3_mn261")]
+position = Vector2(0, 0)
 
 [node name="UI" type="CanvasLayer" parent="Boat"]
 
