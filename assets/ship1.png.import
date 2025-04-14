@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm1xun8jecvwm"
-path="res://.godot/imported/55691_Water_Still_Overlay_A_04_1400x1400.png-45d1f282ffc1f2737050a2d024c5bac8.ctex"
+uid="uid://cgbtwg2msvbfs"
+path="res://.godot/imported/ship1.png-19ce1e2ad1f53486e323f03934a1ccd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/55691_Water_Still_Overlay_A_04_1400x1400.png"
-dest_files=["res://.godot/imported/55691_Water_Still_Overlay_A_04_1400x1400.png-45d1f282ffc1f2737050a2d024c5bac8.ctex"]
+source_file="res://assets/ship1.png"
+dest_files=["res://.godot/imported/ship1.png-19ce1e2ad1f53486e323f03934a1ccd8.ctex"]
 
 [params]
 
