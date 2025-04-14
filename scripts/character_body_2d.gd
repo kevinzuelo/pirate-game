@@ -10,7 +10,6 @@ extends CharacterBody2D
 @onready var speed_gauge: ProgressBar = $UI/SpeedGauge
 
 
-
 #This function handles all  PHYSICS processes per frame
 func _physics_process(delta: float) -> void:
 #--- Rotation ---
@@ -40,6 +39,8 @@ func _process(delta: float) -> void:
 	update_sprite_direction()
 	boat_sprite.rotation = -rotation  # cancels out visual rotation. without it, the boat looks like its kickflipping
 	
+	
+	
 	# -- UI --
 	var display_speed = int(current_speed)
 	speed_label.text = "Speed: " + str(display_speed)
@@ -58,3 +59,5 @@ func update_sprite_direction():
 
 	boat_sprite.play("default")
 	boat_sprite.set_frame(frame)
+	
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ceyt1lbmaqtig"]
+[gd_scene load_steps=17 format=3 uid="uid://ceyt1lbmaqtig"]
 
 [ext_resource type="Script" uid="uid://gdme6x11n4qq" path="res://scripts/ocean.gd" id="1_a1ohp"]
 [ext_resource type="Shader" uid="uid://65kpmqvossgg" path="res://assets/shader-files/watershader.gdshader" id="2_5neuy"]
@@ -7,9 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://js5o76a1wgap" path="res://assets/shader-files/CausticTextureHighlights.png" id="4_46w5d"]
 [ext_resource type="Texture2D" uid="uid://wapgax6nd0ok" path="res://assets/shader-files/cloudnoise_1.webp" id="5_tv676"]
 [ext_resource type="Texture2D" uid="uid://djyybbvnivi74" path="res://assets/shader-files/CausticTexture.png" id="6_vkfeh"]
+[ext_resource type="Texture2D" uid="uid://qolic1fj6gto" path="res://assets/parallax images/82603_Water_Opaque_A_03_1200x1200.jpg" id="7_5neuy"]
+[ext_resource type="Shader" uid="uid://bf2fp7454bt3b" path="res://Shaders/shadow.gdshader" id="8_sup3w"]
 
 [sub_resource type="Gradient" id="Gradient_4imn2"]
-colors = PackedColorArray(0, 0.196078, 1, 1, 0.509804, 0.666667, 1, 1)
+colors = PackedColorArray(0, 0.447059, 1, 1, 0.509804, 0.666667, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_5neuy"]
 gradient = SubResource("Gradient_4imn2")
@@ -20,7 +22,7 @@ shader_parameter/aspectRatio = 1.0
 shader_parameter/pixelization = 1000.0
 shader_parameter/waterDepthGradient = SubResource("GradientTexture2D_5neuy")
 shader_parameter/causticColor = Vector4(0.455, 0.773, 1.795, 2.535)
-shader_parameter/causticHighlightColor = Vector4(8.681, 11.104, 4.753, 0.355)
+shader_parameter/causticHighlightColor = Vector4(8.681, 11.104, 4.753, 1.24)
 shader_parameter/causticTexture = ExtResource("6_vkfeh")
 shader_parameter/causticHighlightTexture = ExtResource("4_46w5d")
 shader_parameter/causticNoiseTexture = ExtResource("5_tv676")
@@ -29,20 +31,32 @@ shader_parameter/causticScale = 5.825
 shader_parameter/causticSpeed = 0.006
 shader_parameter/causticMovementAmount = 0.075
 shader_parameter/causticFaderMultiplier = -1.045
-shader_parameter/specularColor = Vector4(-1.53, 0.815, 5.805, 0.135)
+shader_parameter/specularColor = Vector4(-1.53, 1.965, 0.755, 0.135)
 shader_parameter/specularNoiseTexture = ExtResource("3_4imn2")
 shader_parameter/specularThreshold = 1.005
 shader_parameter/specularSpeed = 5.76
 shader_parameter/specularScale = 19.935
 shader_parameter/foamColor = Vector4(1, 1, 1, 1)
 shader_parameter/foamTexture = ExtResource("5_tv676")
-shader_parameter/foamIntensity = 3.325
+shader_parameter/foamIntensity = 0.2
 shader_parameter/foamScale = 15.0
 shader_parameter/outlineColor = Vector4(0.675, 0.86, 1, 1)
-shader_parameter/generalTransparency = 3.01
+shader_parameter/generalTransparency = 2.51
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_sup3w"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Gradient" id="Gradient_46w5d"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tv676"]
+gradient = SubResource("Gradient_46w5d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vkfeh"]
+shader = ExtResource("8_sup3w")
+shader_parameter/color = Color(0, 0, 0, 0.678431)
+shader_parameter/angle = 37.377
+shader_parameter/max_dist = 220.218
+shader_parameter/gradientTexture = SubResource("GradientTexture2D_tv676")
 
 [node name="TestGameScene" type="Node2D"]
 script = ExtResource("1_a1ohp")
@@ -52,8 +66,22 @@ material = SubResource("ShaderMaterial_6ti71")
 scale = Vector2(3.396, 2.499)
 texture = SubResource("ViewportTexture_sup3w")
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="OceanBackground"]
+follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="OceanBackground/ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="OceanBackground/ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("7_5neuy")
+
 [node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2i(1000, 1000)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_vkfeh")
+polygon = PackedVector2Array(-588, -369, -609, 386, 631, 373, 607, -403)
 
 [node name="Boat" parent="." instance=ExtResource("3_mn261")]
 position = Vector2(0, 0)
