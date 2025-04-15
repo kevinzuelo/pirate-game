@@ -8,6 +8,11 @@ extends CharacterBody2D
 @onready var boat_sprite: AnimatedSprite2D = $boat_sprite
 @onready var speed_label: Label = $UI/SpeedLabel
 @onready var speed_gauge: ProgressBar = $UI/SpeedGauge
+@export var cannonball_scene: PackedScene
+@onready var cannon_left = $CannonLeft
+@onready var cannon_right = $CannonRight
+
+
 
 
 #This function handles all  PHYSICS processes per frame
@@ -28,6 +33,9 @@ func _physics_process(delta: float) -> void:
 		current_speed -= deceleration * delta
 		current_speed = max(current_speed, 0)
 
+
+# --- Shooting ---
+
 	# --- Set velocity based on current speed and rotation ---
 	velocity = Vector2.UP.rotated(rotation) * current_speed
 	move_and_slide()
@@ -39,6 +47,11 @@ func _process(delta: float) -> void:
 	update_sprite_direction()
 	boat_sprite.rotation = -rotation  # cancels out visual rotation. without it, the boat looks like its kickflipping
 	
+	
+	if Input.is_action_just_pressed("fire_left"):
+		fire_cannon(cannon_left, true)
+	if Input.is_action_just_pressed("fire_right"):
+		fire_cannon(cannon_right, false)
 	
 	
 	# -- UI --
@@ -59,5 +72,27 @@ func update_sprite_direction():
 
 	boat_sprite.play("default")
 	boat_sprite.set_frame(frame)
+	
+# --- function that handles shooting the cannon ---
+func fire_cannon(marker: Marker2D, is_left: bool):
+	var cannonball = cannonball_scene.instantiate()
+	cannonball.global_position = marker.global_position
+
+	var angle = rotation
+	if is_left:
+		angle -= PI / 2  # Left cannon fires perpendicular to the left
+	else:
+		angle += PI / 2  # Right cannon fires perpendicular to the right
+
+	cannonball.direction = Vector2.UP.rotated(angle).normalized()
+	get_tree().current_scene.add_child(cannonball)
+	
+	# Plays cannon flash animation (this is a super janky way to do it but i cant be bothered to change it rn)
+	if is_left:
+		$LeftCannonFlash.play("flashleft")
+		$LeftCannonFlash.visible = true
+	else:
+		$RightCannonFlash.play("flashright")
+		$RightCannonFlash.visible = true
 	
 	

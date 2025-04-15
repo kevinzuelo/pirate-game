@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc2i1alrgto46"]
+
+[ext_resource type="Script" uid="uid://08jimyupyxbi" path="res://scripts/cannonball.gd" id="1_402uy"]
+[ext_resource type="Texture2D" uid="uid://bj4rydks4kp6s" path="res://assets/cannonball.png" id="2_402uy"]
+[ext_resource type="PackedScene" uid="uid://cxayc8w7esfd0" path="res://scenes/splash.tscn" id="2_i6nt2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o0w2a"]
+radius = 6.08276
+
+[node name="Cannonball" type="Area2D"]
+script = ExtResource("1_402uy")
+splash_scene = ExtResource("2_i6nt2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_402uy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o0w2a")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 0.75
+
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://gdme6x11n4qq" path="res://scripts/ocean.gd" id="1_a1ohp"]
 [ext_resource type="Shader" uid="uid://65kpmqvossgg" path="res://assets/shader-files/watershader.gdshader" id="2_5neuy"]
 [ext_resource type="Texture2D" uid="uid://cx68tq0mksl33" path="res://assets/shader-files/noiseTexture.png" id="3_4imn2"]
-[ext_resource type="PackedScene" uid="uid://bj0somwodltbl" path="res://scenes/character_body_2d.tscn" id="3_mn261"]
+[ext_resource type="PackedScene" uid="uid://bj0somwodltbl" path="res://scenes/boat.tscn" id="3_mn261"]
 [ext_resource type="Texture2D" uid="uid://js5o76a1wgap" path="res://assets/shader-files/CausticTextureHighlights.png" id="4_46w5d"]
 [ext_resource type="Texture2D" uid="uid://wapgax6nd0ok" path="res://assets/shader-files/cloudnoise_1.webp" id="5_tv676"]
 [ext_resource type="Texture2D" uid="uid://djyybbvnivi74" path="res://assets/shader-files/CausticTexture.png" id="6_vkfeh"]
